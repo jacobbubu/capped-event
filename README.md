@@ -1,7 +1,7 @@
 # @jacobbubu/capped-event
 
 [![Build Status](https://travis-ci.org/jacobbubu/capped-event.svg)](https://travis-ci.org/jacobbubu/capped-event)
-[![Coverage Status](https://coveralls.io/repos/github/username/capped-event/badge.svg)](https://coveralls.io/github/jacobbubu/capped-event)
+[![Coverage Status](https://coveralls.io/repos/github/jacobbubu/capped-event/badge.svg)](https://coveralls.io/github/jacobbubu/capped-event)
 [![npm](https://img.shields.io/npm/v/@jacobbubu/capped-event.svg)](https://www.npmjs.com/package/@jacobbubu/capped-event/)
 
 > A derived class from ReliableEvent in [scuttlebutt-pull](https://github.com/jacobbubu/scuttlebutt-pull) that provides basic cache management capabilities.
