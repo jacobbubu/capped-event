@@ -111,6 +111,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@jacobbubu/scuttlebutt-pull": "^1.3.6"
+    "@jacobbubu/scuttlebutt-pull": "^1.4.0"
   }
 }
