@@ -1,4 +1,10 @@
-import { ReliableEvent, ScuttlebuttOptions, UpdateItems, Update } from '@jacobbubu/scuttlebutt-pull'
+import {
+  ReliableEvent,
+  ScuttlebuttOptions,
+  UpdateItems,
+  Update,
+  ReliableEventValueItems
+} from '@jacobbubu/scuttlebutt-pull'
 
 import { binarySearch } from './utils'
 
@@ -24,6 +30,16 @@ class CappedEvent extends ReliableEvent {
     }
 
     return res
+  }
+
+  getLatestValueByEvent(key: string, withClock = false) {
+    const eventsByKey = this.events[key]
+    if (!(eventsByKey && eventsByKey.length !== 0)) {
+      return undefined
+    }
+
+    const update = eventsByKey[eventsByKey.length - 1]
+    return withClock ? update : update[UpdateItems.Data][ReliableEventValueItems.Arg1]
   }
 
   getLengthByEvent(key: string) {

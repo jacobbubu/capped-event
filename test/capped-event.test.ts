@@ -53,4 +53,16 @@ describe('basic', () => {
     expect(remaining).toBe(1)
     expect(a.getLengthByEvent('event1')).toBe(1)
   })
+
+  it('get latest value by event', () => {
+    const a = new CappedEvent({ id: 'A' })
+    expect(a.getLatestValueByEvent('event1')).toBeUndefined()
+    a.push('event1', 1, 2)
+    expect(a.getLatestValueByEvent('event1')).toBe(1)
+    const update = a.getLatestValueByEvent('event1', true)
+    expect(update[0]).toEqual(['event1', 1, 2])
+    expect(update[2]).toBe('A')
+    a.pruneTo(0, 'event1')
+    expect(a.getLatestValueByEvent('event1')).toBeUndefined()
+  })
 })
