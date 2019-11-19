@@ -25,10 +25,15 @@ class CappedEvent extends ReliableEvent {
     const key = args[0]
     const res = super.push(...args)
 
+    return res
+  }
+
+  applyUpdate(update: Update) {
+    const res = super.applyUpdate(update)
+    const key = update[UpdateItems.Data][ReliableEventValueItems.Key]
     if (this.events[key].length >= this._warningLine) {
       this.emit('__overflow__', key, this.events[key].length)
     }
-
     return res
   }
 

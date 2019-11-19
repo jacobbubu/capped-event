@@ -1,3 +1,4 @@
+import { link } from '@jacobbubu/scuttlebutt-pull'
 import { CappedEvent } from '../src'
 import { delay } from './utils'
 
@@ -14,12 +15,41 @@ describe('basic', () => {
 
   it('overflow', done => {
     const total = 9
-    const a = new CappedEvent({ id: 'A', warningLine: total })
+    const warningLine = 5
+    let count = total - warningLine
+    const a = new CappedEvent({ id: 'A', warningLine })
 
     a.on('__overflow__', (key, len) => {
       expect(key).toBe('event1')
-      expect(len).toBe(total)
-      done()
+      expect(len).toBeGreaterThanOrEqual(warningLine)
+      if (--count === 0) {
+        done()
+      }
+    })
+
+    for (let i = 0; i < total; i++) {
+      a.push('event1', i)
+    }
+  })
+
+  it('overflow on remote', done => {
+    const total = 9
+    const warningLine = 5
+    let count = total - warningLine
+    const a = new CappedEvent({ id: 'A' })
+    const b = new CappedEvent({ id: 'B', warningLine })
+
+    // in a <-> b relationship, a is read-only and b is write-only
+    const s1 = a.createStream({ name: 'a->b' })
+    const s2 = b.createStream({ name: 'b->a' })
+    link(s1, s2)
+
+    b.on('__overflow__', (key, len) => {
+      expect(key).toBe('event1')
+      expect(len).toBeGreaterThanOrEqual(warningLine)
+      if (--count === 0) {
+        done()
+      }
     })
 
     for (let i = 0; i < total; i++) {
