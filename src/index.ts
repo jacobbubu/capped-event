@@ -22,10 +22,7 @@ class CappedEvent extends ReliableEvent {
   }
 
   push(...args: any[]) {
-    const key = args[0]
-    const res = super.push(...args)
-
-    return res
+    return super.push(...args)
   }
 
   applyUpdate(update: Update) {
