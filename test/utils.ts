@@ -1,3 +1,3 @@
-const delay = (ms: number) => new Promise(resolve => setTimeout(() => resolve(), ms))
+const delay = (ms: number) => new Promise<boolean>(resolve => setTimeout(() => resolve(true), ms))
 
 export { delay }

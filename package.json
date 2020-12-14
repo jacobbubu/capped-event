@@ -78,6 +78,7 @@
   "devDependencies": {
     "@types/jest": "^24.0.18",
     "@types/node": "^12.7.12",
+    "@types/pull-stream": "^3.6.2",
     "@types/rc": "^1.1.0",
     "@types/shelljs": "^0.8.5",
     "colors": "^1.4.0",
@@ -111,6 +112,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@jacobbubu/scuttlebutt-pull": "^1.4.0"
+    "@jacobbubu/scuttlebutt-pull": "^1.9.2"
   }
 }
