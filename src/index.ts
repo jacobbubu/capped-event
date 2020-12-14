@@ -28,14 +28,14 @@ class CappedEvent extends ReliableEvent {
   applyUpdate(update: Update) {
     const res = super.applyUpdate(update)
     const key = update[UpdateItems.Data][ReliableEventValueItems.Key]
-    if (this.events[key].length >= this._warningLine) {
-      this.emit('__overflow__', key, this.events[key].length)
+    if (this.events.get(key)!.length >= this._warningLine) {
+      this.emit('__overflow__', key, this.events.get(key)!.length)
     }
     return res
   }
 
   getLatestValueByEvent(key: string, withClock = false) {
-    const eventsByKey = this.events[key]
+    const eventsByKey = this.events.get(key)!
     if (!(eventsByKey && eventsByKey.length !== 0)) {
       return undefined
     }
@@ -45,19 +45,19 @@ class CappedEvent extends ReliableEvent {
   }
 
   getLengthByEvent(key: string) {
-    const eventsByKey = this.events[key]
+    const eventsByKey = this.events.get(key)!
     return eventsByKey ? eventsByKey.length : 0
   }
 
   getTotalLength() {
     const self = this
-    return Object.keys(this.events).reduce((sum, key) => {
+    return Array.from(this.events.keys()).reduce((sum, key) => {
       return sum + self.getLengthByEvent(key)
     }, 0)
   }
 
   pruneBefore(before: number, key: string) {
-    const arr = this.events[key] && this.events[key]
+    const arr = this.events.get(key)! && this.events.get(key)!
     if (arr) {
       const search = [['key'], +new Date() - before]
 
@@ -80,7 +80,7 @@ class CappedEvent extends ReliableEvent {
   }
 
   pruneTo(remain: number, key: string) {
-    const arr = this.events[key] && this.events[key]
+    const arr = this.events.get(key)! && this.events.get(key)!
     if (arr) {
       arr.splice(0, arr.length - remain)
     }
